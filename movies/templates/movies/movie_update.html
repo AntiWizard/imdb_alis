@@ -18,5 +18,10 @@
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
+        <br>
+        <form method="post" action={% url 'movie_delete' movie.pk %}>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
         </div>
 {% endblock %}
