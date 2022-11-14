@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from movies.models import Movie
+from movies.forms import MovieForm
 
 
 def movies_list(request):
@@ -17,5 +18,14 @@ def movie_detail(request, pk):
     return render(request, "movies/movie_detail.html",
                   context={"movie": movie, "crews": movie.crew.all()})
 
-def movie_update(request, pk):
-    pass
+def movie_update(request, pk, movie_form=None):
+    movie = get_object_or_404(Movie, pk=pk, is_valid=True)
+
+    if not movie_form:
+        movie_form = MovieForm(instance=movie)
+
+    context = {
+        'form': movie_form,
+        'movie': movie
+    }
+    return render(request, 'movies/movie_update.html', context=context)
