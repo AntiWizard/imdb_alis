@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Movies List {% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col-lg-4 text-center card m-3" >
+                    <div>
+                        <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+                    </div>
+                    <br>
+                    <a class="title" href={% url "movie_detail" movie.id %}>
+                        <h4>{{ movie.title | title }}</h4>
+                    </a>
+                    <br>
+                    <p class="text-center">{{ movie.get_description | capfirst}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

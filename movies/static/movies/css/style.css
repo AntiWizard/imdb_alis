@@ -1,0 +1,32 @@
+body {
+    background-color: #282828;
+}
+
+.dark-mode {
+    color: sandybrown;
+}
+
+.avatar {
+    width: 100%;
+    height: auto;
+    padding: 5%;
+}
+
+.logo {
+    max-width: 10%;
+    max-height: 5%;
+}
+
+.title {
+    font-size: 2rem;
+    color: coral;
+}
+
+.title:active {
+    color: yellow;
+}
+
+.col-lg-4 {
+    height: auto;
+    width: 30%;
+}

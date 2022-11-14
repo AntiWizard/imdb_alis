@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} {{ movie.title }} {% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="row m-5">
+            <div class="col-md-4">
+                <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+            </div>
+            <div class="col-md-8 p-2 column">
+                <div class="row-md-2 mb-5">
+                    <h2 class="text-center" style="color: coral"><i>{{ movie.title | title }}</i></h2>
+                </div>
+                <div class="row-md-2 mb-5">
+                    <h3 class="text-left dark-mode">Description: <p
+                            style="color:deepskyblue" class="text-center">{{ movie.get_description | capfirst }} </p>
+                    </h3>
+                </div>
+                <br><br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="text-left dark-mode">Actors: </h3>
+                    </div>
+                    {% for crew in crews %}
+                        <div class="col-md-3">
+                            {% if crew.avatar %}
+                                <img src="{{ crew.avatar.url }}" style="width: 100%;height: 100%"
+                                     alt="{{ crew.last_name|add:crew.last_name }}">
+                            {% endif %}
+                            <h6 class="text-center" style="color: deepskyblue;width: 100%;margin: auto">
+                                <b>{{ crew.first_name }} {{ crew.last_name }}</b></h6>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
