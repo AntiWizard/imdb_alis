@@ -16,3 +16,6 @@ def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     return render(request, "movies/movie_detail.html",
                   context={"movie": movie, "crews": movie.crew.all()})
+
+def movie_update(request, pk):
+    pass
