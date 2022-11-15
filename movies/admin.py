@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.db.models import F
 
-from movies.models import Role, Genre, Crew, MovieCrew, Movie
+from movies.models import Role, Genre, Crew, MovieCrew, Movie, Comment
 
 
 class RoleAdmin(admin.ModelAdmin):
@@ -24,7 +25,8 @@ class MovieCrewInline(admin.TabularInline):
     extra = 2
     readonly_fields = ('crew_gender',)
 
-    def crew_gender(self, obj):
+    @staticmethod
+    def crew_gender(obj):
         return obj.crew.get_gender_display()
 
 
@@ -39,9 +41,24 @@ class MovieAdmin(admin.ModelAdmin):
     list_filter = ('is_valid',)
     inlines = (MovieCrewInline, GenreInlineAdmin)
     exclude = ('genres',)
+    actions = ['view_count_plus_ten', "change_to_valid"]
+
+    @admin.action(description='view count plus 10')
+    def view_count_plus_ten(modeladmin, request, queryset):
+        queryset.update(view_count=F("view_count") + 10)
+
+    @admin.action(description='change to valid')
+    def change_to_valid(modeladmin, request, queryset):
+        queryset.update(is_valid=True)
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'comment_text', 'created_time', 'is_valid')
+    search_fields = ("name", 'created_time', "is_valid",)
 
 
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Crew, CrewAdmin)
 admin.site.register(Movie, MovieAdmin)
+admin.site.register(Comment, CommentAdmin)
