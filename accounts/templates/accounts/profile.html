@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+    <div class="container card">
+        {% for field in user_form %}
+            <div class="form-group row mt-3 mb-3 field">
+                <div class="col-6 p-1">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-6">
+                    {{ field }}
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+        <a href="{% url 'edit_profile' pk %}">
+            <button type="submit" class="btn btn-primary mb-3" style="width: 10%">Edit</button>
+        </a>
+    </div>
+{% endblock %}

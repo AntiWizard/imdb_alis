@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="login text-center">
+            {% if messages %}
+                {% for message in messages %}
+                    <h4 style="color: white">{{ message }}</h4>
+                {% endfor %}
+            {% endif %}
+            <div class="error">{{ form.non_field_errors }}</div>
+            <form method="post" action={% url 'login' %}>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group" style="color: white">
+                        <div class="error">{{ field.errors }}</div>
+                        {{ field.label_tag }}
+                        <br>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <br>
+                <button type="submit" class="btn btn-success">Login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

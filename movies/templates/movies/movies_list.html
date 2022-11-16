@@ -3,6 +3,11 @@
 
 {% block content %}
     <div class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <h4 style="color: white;text-align: center;">{{ message }}</h4>
+            {% endfor %}
+        {% endif %}
         <div class="row">
             {% for movie in movies %}
                 <div class="col-lg-4 card m-2">

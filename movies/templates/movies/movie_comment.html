@@ -7,9 +7,9 @@
             <div class="col-md-4">
                 <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6">a
                 <div class="error">{{ form.non_field_errors }}</div>
-                <form method="POST" action="{% url "movie_detail" movie.id %}" style="padding: 5%">
+                <form method="POST" action="{% url "movie_comment" movie.id %}" style="padding: 5%">
                     <div class="form-group row">
                         {% csrf_token %}
                         {% for field in form %}

@@ -13,12 +13,12 @@ body {
 }
 
 .logo {
-    max-width: 10%;
-    max-height: 5%;
+    width: 10%;
+    height: 100%;
 }
 
 .title {
-    color: greenyellow;
+    color: cornflowerblue;
     text-decoration: none;
 }
 
@@ -37,7 +37,7 @@ body {
 }
 
 .card {
-    background-color: darksalmon;
+    background-color: aliceblue;
 }
 
 .ipc-icon {
@@ -76,6 +76,23 @@ body {
 .error, .errorlist {
     color: red;
 }
-#id_title{
+
+#id_title {
     width: 75%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-link {
+    color: white;
+    text-decoration: none;
+}
+
+.col-6 {
+    display: flex;
+    justify-content: left;
+    margin-top: 0;
+    margin-bottom: 0;
 }
