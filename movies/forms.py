@@ -8,7 +8,7 @@ class MovieForm(forms.ModelForm):
         model = Movie
         fields = ('title', 'description', 'release_date', 'avatar',)
 
-class NewUserForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
