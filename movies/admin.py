@@ -24,7 +24,8 @@ class MovieCrewInline(admin.TabularInline):
     extra = 2
     readonly_fields = ('crew_gender',)
 
-    def crew_gender(self, obj):
+    @staticmethod
+    def crew_gender(obj):
         return obj.crew.get_gender_display()
 
 
@@ -39,6 +40,11 @@ class MovieAdmin(admin.ModelAdmin):
     list_filter = ('is_valid',)
     inlines = (MovieCrewInline, GenreInlineAdmin)
     exclude = ('genres',)
+    actions = ["change_to_valid"]
+
+    @admin.action(description='change to valid')
+    def change_to_valid(modeladmin, request, queryset):
+        queryset.update(is_valid=True)
 
 
 admin.site.register(Role, RoleAdmin)

@@ -34,6 +34,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item text-center" href="{% url 'movies_list' %}">profile</a>
+                                <a class="dropdown-item text-center mt-2" href="{% url 'movie_add' %}">movie_add</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-center" href="{% url 'logout' %}">
                                     <button type="submit" class="btn btn-link">Logout</button>
@@ -83,8 +84,10 @@
     </div>
 </nav>
 
-{% block content %}
-    <h3>Default content</h3>
-{% endblock %}
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
 </body>
 </html>

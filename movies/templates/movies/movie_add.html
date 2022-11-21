@@ -2,12 +2,12 @@
 {% block title %} Movies Add Form {% endblock %}
 
 {% block content %}
-    <div class="content">
+    <div class="content m-2">
         <div class="error">{{ form.non_field_errors }}</div>
         <form method="post" enctype="multipart/form-data" action={% url 'movies_list' %}>
             {% csrf_token %}
             {% for field in form %}
-                <div class="form-group" style="color: white;width: 50%;" >
+                <div class="m-1" style="color: white;width: 50%;">
                     <div class="error">{{ field.errors }}</div>
                     {{ field.label_tag }}
                     <br>
@@ -15,7 +15,7 @@
                 </div>
             {% endfor %}
             <br>
-            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="submit" class="btn btn-info ml-2">Submit</button>
         </form>
     </div>
 {% endblock %}

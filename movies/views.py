@@ -1,30 +1,54 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from movies.models import Movie
+from movies.models import Movie, MovieCrew
 from movies.forms import MovieForm
 
 
 def movies_list(request):
-    movies = Movie.objects.all()[:8]
-    context = {
-        "movies": movies,
-        "is_valid": True
-    }
-    return render(request, 'movies/movies_list.html', context=context)
+    if request.method == "GET":
+        movies = Movie.objects.filter(is_valid=True)[:8]
+        context = {
+            "movies": movies,
+        }
+        return render(request, 'movies/movies_list.html', context=context)
+
+    elif request.method == "POST":
+        movie_form = MovieForm(request.POST, request.FILES)
+        if not movie_form.is_valid():
+            return movie_add(request, movie_form=movie_form)
+        movie_form.save()
+        return redirect('movies_list')
 
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
-    return render(request, "movies/movie_detail.html",
-                  context={"movie": movie, "crews": movie.crew.all()})
+    if request.method == "GET":
+        context = {"movie": movie,
+                   'movie_crew_list': MovieCrew.objects.filter(movie=movie)
+                   .select_related('crew', 'role')
+                   }
+        return render(request, "movies/movie_detail.html", context=context)
+
+    elif request.method == "POST":
+        if request.POST.get('save'):
+            movie_form = MovieForm(request.POST, request.FILES, instance=movie)
+            if not movie_form.is_valid():
+                return movie_update(request, pk, movie_form)
+            movie_form.save()
+            return redirect('movie_detail', pk)
+        elif request.POST.get('delete'):
+            return movie_delete(request, pk)
 
 
+@login_required
 def movie_add(request, movie_form=None):
     if not movie_form:
         movie_form = MovieForm()
     return render(request, 'movies/movie_add.html', context={'form': movie_form})
 
 
+@login_required
 def movie_update(request, pk, movie_form=None):
     movie = get_object_or_404(Movie, pk=pk, is_valid=True)
 
@@ -33,11 +57,12 @@ def movie_update(request, pk, movie_form=None):
 
     context = {
         'form': movie_form,
-        'movie': movie
+        'movie': movie,
     }
     return render(request, 'movies/movie_update.html', context=context)
 
 
+@login_required
 def movie_delete(request, pk):
     movie = get_object_or_404(Movie, pk=pk, is_valid=True)
     movie.is_valid = False
