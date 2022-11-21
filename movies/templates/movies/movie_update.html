@@ -2,26 +2,38 @@
 {% block title %} Movies Edit Form {% endblock %}
 
 {% block content %}
-    <div class="main">
-        <h2 class="text-center">Edit: {{ movie.title }}</h2>
-        <div class="error">{{ form.non_field_errors }}</div>
-
-        <form method="post" enctype="multipart/form-data" action={% url 'movie_detail' movie.pk %}>
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group {% if field.errors %} border border-danger {% endif %}">
-                    <div class="error">{{ field.errors }}</div>
-                    {{ field.label_tag }} <br>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <br>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-        <br>
-        <form method="post" action={% url 'movie_delete' movie.pk %}>
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
+    <div class="content">
+        <h4 class="text-center" style="color: white">Edit: {{ movie.title }}</h4>
+        <div class="row m-2">
+            <div class="col-md-4">
+                <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+            </div>
+            <div class="col-md-6">
+                <div class="error">{{ form.non_field_errors }}</div>
+                <form method="POST" enctype="multipart/form-data"
+                      action="{% url 'movie_detail' movie.id %}" style="padding: 2%">
+                    <div class="form-group row">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group mb-2" style="color: white">
+                                <div class="error">{{ field.errors }}</div>
+                                {{ field.label_tag }}
+                                <br>
+                                <div style="width: 100%">
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div>
+                            <button type="submit" class="btn btn-info">Save</button>
+                        </div>
+                    </div>
+                </form>
+                <form method="POST" action="{% url 'movie_delete' movie.id %}" style="padding: 2%">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
         </div>
+    </div>
 {% endblock %}

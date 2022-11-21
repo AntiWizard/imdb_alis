@@ -3,7 +3,7 @@ body {
 }
 
 .dark-mode {
-    color: sandybrown;
+    color: aqua;
 }
 
 .avatar {
@@ -13,20 +13,86 @@ body {
 }
 
 .logo {
-    max-width: 10%;
-    max-height: 5%;
+    width: 10%;
+    height: 100%;
 }
 
 .title {
-    font-size: 2rem;
-    color: coral;
+    color: cornflowerblue;
+    text-decoration: none;
 }
 
 .title:active {
     color: yellow;
 }
 
+.title:hover {
+    color: wheat;
+    text-decoration: underline wheat;
+}
+
 .col-lg-4 {
-    height: auto;
+    height: inherit;
     width: 30%;
+}
+
+.card {
+    background-color: aliceblue;
+}
+
+.ipc-icon {
+    color: #f5c518;
+    margin-right: 0.5rem;
+
+}
+
+.ipc-rating-star {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.star {
+    margin-left: 7.5%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.col-lg-3 {
+    margin: auto;
+}
+
+.col-md-3 {
+    margin: auto;
+}
+
+.comment {
+    width: 100%;
+    height: auto;
+    padding: 1%;
+    background-color: ghostwhite;
+}
+
+.error, .errorlist {
+    color: red;
+}
+
+#id_title {
+    width: 75%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-link {
+    color: white;
+    text-decoration: none;
+}
+
+.col-6 {
+    display: flex;
+    justify-content: left;
+    margin-top: 0;
+    margin-bottom: 0;
 }
