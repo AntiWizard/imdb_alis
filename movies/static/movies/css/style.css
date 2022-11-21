@@ -1,5 +1,5 @@
 body {
-    background-color: #282828;
+    background-color: #282828 !important;
 }
 
 .dark-mode {
@@ -13,8 +13,8 @@ body {
 }
 
 .logo {
-    width: 10%;
-    height: 100%;
+    width: 7rem;
+    height: 3.5rem;
 }
 
 .title {
@@ -85,6 +85,10 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 .btn-link {
     color: white;
     text-decoration: none;
@@ -95,4 +99,16 @@ a {
     justify-content: left;
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.active {
+    margin-left: 15px;
+}
+
+.dropdown {
+    margin-left: 20px;
+}
+
+.btn-link {
+    color: black !important;
 }
