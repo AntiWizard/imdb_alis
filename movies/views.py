@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from movies.models import Movie, MovieCrew
 from movies.forms import MovieForm
+from movies.models import Movie, MovieCrew, MovieComment
 
 
 def movies_list(request):
@@ -26,7 +26,8 @@ def movie_detail(request, pk):
     if request.method == "GET":
         context = {"movie": movie,
                    'movie_crew_list': MovieCrew.objects.filter(movie=movie)
-                   .select_related('crew', 'role')
+                   .select_related('crew', 'role'),
+                   'comments': MovieComment.objects.filter(movie=movie, status=MovieComment.APPROVED)
                    }
         return render(request, "movies/movie_detail.html", context=context)
 

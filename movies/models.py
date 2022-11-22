@@ -1,5 +1,7 @@
 from django.db import models
 
+from comments.models import AbstractComment
+
 
 class Genre(models.Model):
     title = models.CharField(max_length=50)
@@ -69,3 +71,29 @@ class MovieCrew(models.Model):
 
     class Meta:
         unique_together = ('movie', 'crew', 'role')
+
+
+class MovieComment(AbstractComment):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    def publish(self):
+        self.objects.update(status=AbstractComment.APPROVED)
+
+    class Meta:
+        ordering = ['-created_time']
+
+    def __str__(self):
+        return "{}: {}".format(self.id, self.comment_body[:10])
+
+
+class CrewComment(AbstractComment):
+    crew = models.ForeignKey(Crew, on_delete=models.CASCADE)
+
+    def publish(self):
+        self.objects.update(status=AbstractComment.APPROVED)
+
+    class Meta:
+        ordering = ['-created_time']
+
+    def __str__(self):
+        return "{}: {}".format(self.id, self.comment_body[:10])

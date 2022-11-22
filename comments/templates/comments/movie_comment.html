@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} movie comment {% endblock %}
+
+{% block content %}
+    <div class="content m-2">
+        <h3 class="text-center" style="color: white">Add Comment:
+            <a class="title text-left" href={% url "movie_detail" movie.id %}>
+                {{ movie.title }}
+            </a>
+        </h3>
+        <div class="row m-2">
+            <div class="col-md-4">
+                <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+            </div>
+            <div class="col-md-6 mt-1">
+                <div class="error">{{ form.non_field_errors }}</div>
+                <form method="POST" enctype="multipart/form-data"
+                      action="{% url 'movie_comment' movie.id comment_pk %}" style="padding: 2%">
+                    <div class="form-group row">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group mb-2" style="color: white">
+                                <div class="error">{{ field.errors }}</div>
+                                {{ field.label_tag }}
+                                <br>
+                                <div style="width: 100%">
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div>
+                            <button type="submit" class="btn btn-info" name="save" value="save">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

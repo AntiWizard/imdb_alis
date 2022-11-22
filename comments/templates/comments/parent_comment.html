@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load user_tag %}
+{% block title %} movie comment {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="card comment mb-4 mt-4">
+            <h5 style="text-align: right;margin-right: 20px">
+                <i>{{ comment.user|custom }}</i>
+            </h5>
+            <div>
+                <h6 style="color:currentColor;margin-left: 2%;margin-right: 2%">
+                    {{ comment.comment_body | capfirst }}
+                </h6>
+                <h5 style="text-align: right;margin-right: 20px">
+                    <i>{{ comment.modified_time }}</i>
+                </h5>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center" style="color: white"><b>Replay Comment</b></h3>
+
+    <div class="mt-1 mt-5">
+        <div class="error">{{ form.non_field_errors }}</div>
+        <form method="POST" enctype="multipart/form-data"
+              action="{% url 'parent_comment' movie.id comment.id %}">
+            <div class="form-group row">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group" style="color: white">
+                        <div class="error">{{ field.errors }}</div>
+                        {{ field.label_tag }}
+                        <br>
+                        <div style="width: 100%">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div>
+                    <button type="submit" class="btn btn-info" name="save" value="save">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

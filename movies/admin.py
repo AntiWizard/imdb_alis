@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from movies.models import Role, Genre, Crew, MovieCrew, Movie
+from movies.models import Role, Genre, Crew, MovieCrew, Movie, MovieComment
 
 
 class RoleAdmin(admin.ModelAdmin):
@@ -47,7 +47,17 @@ class MovieAdmin(admin.ModelAdmin):
         queryset.update(is_valid=True)
 
 
+class MovieCommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'movie', 'user']
+
+    def save_model(self, request, obj, form, change):
+        if change and not obj.validated_by and 'status' in form.changed_data:
+            obj.validated_by = request.user
+        obj.save()
+
+
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Crew, CrewAdmin)
 admin.site.register(Movie, MovieAdmin)
+admin.site.register(MovieComment, MovieCommentAdmin)

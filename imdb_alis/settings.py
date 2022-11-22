@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'movies.apps.MoviesConfig',
     'users.apps.UsersConfig',
+    'comments.apps.CommentsConfig',
     'crispy_forms',
 ]
 
