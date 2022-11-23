@@ -14,7 +14,8 @@ class AbstractComment(models.Model):
         (DELETED, 'Deleted')
     )
 
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True,
+                               related_name='parent_%(class)ss')
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='%(class)ss')
@@ -26,11 +27,6 @@ class AbstractComment(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
-
-    # def get_parents(self):
-    #     if self.parent is None:
-    #         return MovieComment.objects.none()
-    #     return MovieComment.objects.filter(pk=self.parent.pk) | self.parent.get_parents()
 
     def publish(self):
         pass

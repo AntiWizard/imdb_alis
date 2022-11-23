@@ -79,8 +79,19 @@ class MovieComment(AbstractComment):
     def publish(self):
         self.objects.update(status=AbstractComment.APPROVED)
 
+    def get_parent(self):
+        return self.parent_moviecomments.filter(status=AbstractComment.APPROVED).all()
+
+    def get_user_parent(self):
+        users = self.parent_moviecomments.filter(status=AbstractComment.APPROVED).values_list('user')
+        list_users = []
+        if users:
+            for item in users:
+                list_users.append(item[0])
+        return list_users
+
     class Meta:
-        ordering = ['-created_time']
+        ordering = ['created_time']
 
     def __str__(self):
         return "{}: {}".format(self.id, self.comment_body[:10])
@@ -93,7 +104,7 @@ class CrewComment(AbstractComment):
         self.objects.update(status=AbstractComment.APPROVED)
 
     class Meta:
-        ordering = ['-created_time']
+        ordering = ['created_time']
 
     def __str__(self):
         return "{}: {}".format(self.id, self.comment_body[:10])

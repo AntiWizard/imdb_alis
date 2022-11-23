@@ -39,7 +39,7 @@ def movie_detail(request, pk):
             movie_form.save()
             return redirect('movie_detail', pk)
         elif request.POST.get('delete'):
-            return movie_delete(request, pk)
+                return movie_delete(request, pk)
 
 
 @login_required
