@@ -63,11 +63,14 @@ class Movie(models.Model):
 
 
 class MovieCrew(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="rel_movie")
     crew = models.ForeignKey(Crew, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="rel_role")
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.movie.title
 
     class Meta:
         unique_together = ('movie', 'crew', 'role')

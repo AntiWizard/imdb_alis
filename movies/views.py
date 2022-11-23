@@ -24,9 +24,20 @@ def movies_list(request):
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     if request.method == "GET":
+        movie_crew = MovieCrew.objects.filter(movie=movie).select_related('crew', 'role')
+        genres = ", ".join([item.title.title() for item in movie.genres.all()])
+        crew_role = [{str(item.role): str(item.crew)} for item in movie_crew]
+        actors = []
+        directors = []
+        for item in crew_role:
+            if item.get('Actor') is not None:
+                actors.append(item.get('Actor'))
+            elif item.get('Director') is not None:
+                directors.append(item.get('Director'))
         context = {"movie": movie,
-                   'movie_crew_list': MovieCrew.objects.filter(movie=movie)
-                   .select_related('crew', 'role'),
+                   "genres": genres,
+                   "actors": ", ".join(actors),
+                   "directors": ", ".join(directors),
                    'comments': MovieComment.objects.filter(movie=movie, status=MovieComment.APPROVED)
                    }
         return render(request, "movies/movie_detail.html", context=context)
@@ -39,7 +50,7 @@ def movie_detail(request, pk):
             movie_form.save()
             return redirect('movie_detail', pk)
         elif request.POST.get('delete'):
-                return movie_delete(request, pk)
+            return movie_delete(request, pk)
 
 
 @login_required
@@ -70,3 +81,9 @@ def movie_delete(request, pk):
     movie.save()
 
     return redirect('movies_list')
+
+
+@login_required
+def movie_rate(request, pk):
+    movie = get_object_or_404(Movie, pk=pk, is_valid=True)
+    return render(request, 'movies/movie_rate.html', context={"movie": movie})
