@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 
 from accounts.forms import ProfileForm, SignupForm, LoginForm, EditProfileForm
@@ -71,3 +72,4 @@ def edit_profile(request, pk, profile=None):
             return edit_profile(request, pk, profile_form)
         profile_form.save()
         return redirect('profile', pk)
+
