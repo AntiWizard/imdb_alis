@@ -1,4 +1,5 @@
 from django.urls import path
+
 from movies.views import movies_list, movie_detail, movie_update, movie_add, movie_rate
 
 urlpatterns = [

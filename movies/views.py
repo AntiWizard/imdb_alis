@@ -17,6 +17,8 @@ def movies_list(request):
         movie_form = MovieForm(request.POST, request.FILES)
         if not movie_form.is_valid():
             return movie_add(request, movie_form=movie_form)
+        movie_form = movie_form.save(commit=False)
+        movie_form.is_valid = False
         movie_form.save()
         return redirect('movies_list')
 
@@ -47,6 +49,8 @@ def movie_detail(request, pk):
             movie_form = MovieForm(request.POST, request.FILES, instance=movie)
             if not movie_form.is_valid():
                 return movie_update(request, pk, movie_form)
+            movie_form = movie_form.save(commit=False)
+            movie_form.is_valid = False
             movie_form.save()
             return redirect('movie_detail', pk)
         elif request.POST.get('delete'):

@@ -11,7 +11,8 @@
                         {% else %}
                             src="../../static/movies/images/default-movie.png"
                         {% endif %}
-                            alt="{{ movie.title }}" class="avatar">g</div>
+                            alt="{{ movie.title }}" class="avatar">g
+            </div>
             <div class="col-md-6">
                 <form method="POST" action="{% url "movie_rate" movie.id %}" style="padding: 5%">
                     <div class="form-group row">

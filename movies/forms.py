@@ -1,6 +1,6 @@
 from django import forms
 
-from movies.models import Movie
+from movies.models import Movie, Genre, Crew
 
 
 class MovieForm(forms.ModelForm):
@@ -16,3 +16,15 @@ class MovieForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
         }
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
+        fields = ('title',)
+
+
+class CrewForm(forms.ModelForm):
+    class Meta:
+        model = Crew
+        fields = ('first_name', 'last_name', 'birthday', 'gender', 'avatar',)

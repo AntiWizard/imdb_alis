@@ -30,14 +30,16 @@
                             </div>
                         {% endfor %}
                         <div>
-                            <button type="submit" class="btn btn-info" name="save" value="save">Save</button>
+                            <button type="submit" class="btn btn-success" name="save" value="save">Save</button>
                         </div>
                     </div>
                 </form>
-                <form method="POST" action="{% url  "movie_detail" movie.id %}" style="padding: 1%">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger" name="delete" value="delete">Delete</button>
-                </form>
+                {% if request.user.is_superuser %}
+                    <form method="POST" action="{% url  "movie_detail" movie.id %}" style="padding: 1%">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" name="delete" value="delete">Delete</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>

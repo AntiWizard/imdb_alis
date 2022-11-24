@@ -22,7 +22,7 @@ body {
     text-decoration: none;
 }
 
-.title:active {
+.title {
     color: yellow;
 }
 
