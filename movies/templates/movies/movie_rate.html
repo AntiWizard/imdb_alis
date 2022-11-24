@@ -5,27 +5,32 @@
     <div class="content">
         <div class="row m-5">
             <div class="col-md-4">
-                <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
-            </div>
+                <img
+                        {% if movie.avatar %}
+                            src="{{ movie.avatar.url }}"
+                        {% else %}
+                            src="../../static/movies/images/default-movie.png"
+                        {% endif %}
+                            alt="{{ movie.title }}" class="avatar">g</div>
             <div class="col-md-6">
                 <form method="POST" action="{% url "movie_rate" movie.id %}" style="padding: 5%">
                     <div class="form-group row">
                         {% csrf_token %}
                         <label class="col-lg-2" style="color: white;margin: auto">Rating: </label>
-                            <select name="rate" class="custom-select col-lg-6">
-                                <option selected>Choose...</option>
-                                <option name="value1" value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                                <option value="4">Four</option>
-                                <option value="5">Five</option>
-                                <option value="6">Six</option>
-                                <option value="7">Seven</option>
-                                <option value="8">Eight</option>
-                                <option value="9">Nine</option>
-                                <option value="10">Ten</option>
-                            </select>
-                        <div class="col-lg" >
+                        <select name="rate" class="custom-select col-lg-6">
+                            <option selected>Choose...</option>
+                            <option name="value1" value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                            <option value="5">Five</option>
+                            <option value="6">Six</option>
+                            <option value="7">Seven</option>
+                            <option value="8">Eight</option>
+                            <option value="9">Nine</option>
+                            <option value="10">Ten</option>
+                        </select>
+                        <div class="col-lg">
                             <button type="submit" class="btn btn-info">Submit</button>
                         </div>
                     </div>

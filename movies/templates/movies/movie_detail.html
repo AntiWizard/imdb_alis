@@ -6,7 +6,13 @@
     <div class="content">
         <div class="row m-5">
             <div class="col-md-4">
-                <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+                <img
+                        {% if movie.avatar %}
+                            src="{{ movie.avatar.url }}"
+                        {% else %}
+                            src="../../static/movies/images/default-movie.png"
+                        {% endif %}
+                            alt="{{ movie.title }}" class="avatar">
             </div>
             <div class="col-md-8 p-2 column">
                 <div class="row-md-2 mb-4">

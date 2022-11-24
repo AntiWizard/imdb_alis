@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.core.cache import *
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from users.forms import SignUpForm, LoginForm
@@ -41,6 +43,8 @@ def signup(request):
 def user_login(request):
     if request.user.is_anonymous:
         if request.method == "GET":
+            cache.set('next', request.GET.get('next', None))
+
             login_form = LoginForm()
             return render(request, 'users/registrations/login.html', context={'form': login_form})
         elif request.method == "POST":
@@ -49,6 +53,10 @@ def user_login(request):
             if user is None:
                 return redirect('login')
             login(request, user)
+            next_url = cache.get('next')
+            if next_url:
+                cache.delete('next')
+                return HttpResponseRedirect(next_url)
             return redirect('movies_list')
     else:
         return redirect('movies_list')

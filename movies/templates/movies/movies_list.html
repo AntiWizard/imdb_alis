@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Movies List {% endblock %}
 
 {% block content %}
@@ -7,7 +8,13 @@
             {% for movie in movies %}
                 <div class="col-lg-4 card m-2">
                     <a href={% url "movie_detail" movie.id %}>
-                        <img src="{{ movie.avatar.url }}" alt="{{ movie.title }}" class="avatar">
+                        <img
+                                {% if movie.avatar %}
+                                    src="{{ movie.avatar.url }}"
+                                {% else %}
+                                    src="../../static/movies/images/default-movie.png"
+                                {% endif %}
+                                    alt="{{ movie.title }}" class="avatar">
                     </a>
                     <div class="mb-1 row">
                         <div class="col-lg-6 star">
