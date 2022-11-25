@@ -14,13 +14,16 @@ def movies_list(request):
         return render(request, 'movies/movies_list.html', context=context)
 
     elif request.method == "POST":
-        movie_form = MovieForm(request.POST, request.FILES)
-        if not movie_form.is_valid():
-            return movie_add(request, movie_form=movie_form)
-        movie_form = movie_form.save(commit=False)
-        movie_form.is_valid = False
-        movie_form.save()
-        return redirect('movies_list')
+        if request.POST.get('search'):
+            return redirect('movies_list')
+        else:
+            movie_form = MovieForm(request.POST, request.FILES)
+            if not movie_form.is_valid():
+                return movie_add(request, movie_form=movie_form)
+            movie_form = movie_form.save(commit=False)
+            movie_form.is_valid = False
+            movie_form.save()
+            return redirect('movies_list')
 
 
 def movie_detail(request, pk):

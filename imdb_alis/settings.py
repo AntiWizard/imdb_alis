@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'movies.apps.MoviesConfig',
     'users.apps.UsersConfig',
     'comments.apps.CommentsConfig',
+    'django_elasticsearch_dsl',
     'crispy_forms',
 ]
 
@@ -137,3 +138,9 @@ LOGOUT_REDIRECT_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
