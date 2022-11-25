@@ -91,3 +91,5 @@ def movie_delete(request, pk):
 def movie_rate(request, pk):
     movie = get_object_or_404(Movie, pk=pk, is_valid=True)
     return render(request, 'movies/movie_rate.html', context={"movie": movie})
+
+    return render(request, "admin/login.html")

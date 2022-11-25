@@ -44,7 +44,7 @@ class MovieAdmin(admin.ModelAdmin):
 
     @admin.action(description='change to valid')
     def change_to_valid(modeladmin, request, queryset):
-        queryset.update(stauts=True)
+        queryset.update(is_valid=True)
 
 
 class MovieCommentAdmin(admin.ModelAdmin):
