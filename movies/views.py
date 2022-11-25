@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from movies.forms import MovieForm
-from movies.models import Movie, MovieCrew, MovieComment
+from movies.models import Movie, MovieCrew, MovieComment, MovieRating
 
 
 def movies_list(request):
@@ -90,4 +90,9 @@ def movie_delete(request, pk):
 @login_required
 def movie_rate(request, pk):
     movie = get_object_or_404(Movie, pk=pk, is_valid=True)
-    return render(request, 'movies/movie_rate.html', context={"movie": movie})
+    if request.method == "GET":
+        return render(request, 'movies/movie_rate.html', context={"movie": movie})
+
+    elif request.method == "POST":
+        MovieRating.objects.create(user=request.user, movie=movie, rate=request.POST.get("rate"))
+        return redirect('movies/movie_rate.html', pk)
