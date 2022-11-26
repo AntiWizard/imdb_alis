@@ -26,10 +26,10 @@ def movie_comment(request, movie_pk, comment_pk, form=None):
             movie.moviecomment_set.filter(pk=comment_pk).update(status=MovieComment.DELETED)
             return redirect('movie_detail', movie_pk)
 
-        elif request.POST.get('replay'):
+        elif request.POST.get('reply'):
             comment = movie.moviecomment_set.get(pk=comment_pk)
             form = MovieCommentForm()
-            return render(request, "comments/replay_comment.html",
+            return render(request, "comments/reply_comment.html",
                           context={"movie": movie, "form": form, "comment": comment})
         else:
             form = MovieCommentForm(request.POST)
@@ -57,7 +57,7 @@ def parent_comment(request, movie_pk, comment_pk):
 
     form = MovieCommentForm(request.POST)
     if not form.is_valid():
-        return render(request, "comments/replay_comment.html",
+        return render(request, "comments/reply_comment.html",
                       context={"form": form, "movie": movie, "comment": comment})
 
     MovieComment.objects.create(movie=movie, user=request.user,

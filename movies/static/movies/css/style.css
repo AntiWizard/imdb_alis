@@ -22,10 +22,6 @@ body {
     text-decoration: none;
 }
 
-.title {
-    color: yellow;
-}
-
 .title:hover {
     color: wheat;
     text-decoration: underline wheat;

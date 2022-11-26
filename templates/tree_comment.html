@@ -20,19 +20,20 @@
             {% if user.is_authenticated and comment.user == request.user %}
                 <a class="mr-1" style="margin-left: 2%"
                    href={% url "movie_comment" movie.id comment.id %}>
-                    <button type="submit" class="btn btn-primary mb-2" name="edit" value="edit">Edit
+                    <button type="submit" class="btn btn-link mb-2" name="edit" value="edit">
+                        <i class="fas fa-edit"></i>
                     </button>
                 </a>
                 <a href={% url "movie_comment" movie.id comment.id %}>
-                    <button type="submit" class="btn btn-danger mb-2" name="delete" value="delete">
-                        Delete
+                    <button type="submit" style="color: red !important;" class="btn btn-link mb-2" name="delete" value="delete">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </a>
             {% endif %}
             {% if user.is_authenticated and comment.user != request.user %}
                 <a style="margin-left: 2%" href={% url "movie_comment" movie.id comment.id %}>
-                    <button type="submit" class="btn btn-success mb-2" name="replay" value="replay">
-                        Replay
+                    <button type="submit" style="color: green !important;" class="btn btn-link mb-2" name="reply" value="reply">
+                        <i class="fas fa-reply"></i>
                     </button>
                 </a>
             {% endif %}
