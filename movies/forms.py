@@ -28,3 +28,9 @@ class CrewForm(forms.ModelForm):
     class Meta:
         model = Crew
         fields = ('first_name', 'last_name', 'birthday', 'gender', 'avatar',)
+
+
+class SearchForm(forms.ModelForm):
+    class Meta:
+        model = Movie
+        fields = ('title',)

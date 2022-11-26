@@ -55,8 +55,8 @@
                 {% endif %}
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'movies_list' %}">
-                    about
+                <a class="nav-link" href="{% url 'django_admin' %}">
+                    admin
                 </a>
             </li>
             <li class="nav-item active">
@@ -76,9 +76,12 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline my-2 my-lg-0" method="post" action="{% url 'movies_list' %}">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                   name="search_text">{{ search_form.field }}
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search" value="search">Search
+            </button>
         </form>
         <a class="nav-link" href="{% url "movies_list" %}">
             <img src="{% static 'movies/images/logo.png' %}" alt="logo" class="logo">

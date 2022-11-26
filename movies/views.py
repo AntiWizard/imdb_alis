@@ -1,26 +1,39 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from movies.forms import MovieForm
 from movies.models import Movie, MovieCrew, MovieComment, MovieRating
+from movies.forms import MovieForm, SearchForm
 
 
 def movies_list(request):
+    search_form = SearchForm()
     if request.method == "GET":
         movies = Movie.objects.filter(is_valid=True)[:8]
         context = {
             "movies": movies,
+            "search_form": search_form
         }
         return render(request, 'movies/movies_list.html', context=context)
 
     elif request.method == "POST":
-        movie_form = MovieForm(request.POST, request.FILES)
-        if not movie_form.is_valid():
-            return movie_add(request, movie_form=movie_form)
-        movie_form = movie_form.save(commit=False)
-        movie_form.is_valid = False
-        movie_form.save()
-        return redirect('movies_list')
+        if request.POST.get('search'):
+            context = {"search_form": search_form}
+            s_text = request.POST.get('search_text')
+            if len(s_text) >= 3:
+                search_movie = Movie.objects.filter(title__icontains=request.POST.get('search_text'))
+                context = {
+                    "movies": search_movie,
+                    "search_form": search_form
+                }
+            return render(request, 'movies/movies_list.html', context=context)
+        else:
+            movie_form = MovieForm(request.POST, request.FILES)
+            if not movie_form.is_valid():
+                return movie_add(request, movie_form=movie_form)
+            movie_form = movie_form.save(commit=False)
+            movie_form.is_valid = False
+            movie_form.save()
+            return redirect('movies_list')
 
 
 def movie_detail(request, pk):
@@ -92,7 +105,11 @@ def movie_rate(request, pk):
     movie = get_object_or_404(Movie, pk=pk, is_valid=True)
     if request.method == "GET":
         return render(request, 'movies/movie_rate.html', context={"movie": movie})
-
     elif request.method == "POST":
         MovieRating.objects.create(user=request.user, movie=movie, rate=request.POST.get("rate"))
         return redirect('movies/movie_rate.html', pk)
+    return render(request, 'movies/movie_rate.html', context={"movie": movie})
+
+
+def admin_view(request):
+    return render(request, "admin/login.html")

@@ -5,19 +5,20 @@
 {% block content %}
     <div class="content m-2">
         <div class="row">
-            {% for movie in movies %}
-                <div class="col-lg-4 card m-2">
-                    <a href={% url "movie_detail" movie.id %}>
-                        <img
-                                {% if movie.avatar %}
-                                    src="{{ movie.avatar.url }}"
-                                {% else %}
-                                    src="../../static/movies/images/default-movie.png"
-                                {% endif %}
-                                    alt="{{ movie.title }}" class="avatar">
-                    </a>
-                    <div class="mb-1 row">
-                        <div class="col-lg-6 star">
+            {% if movies.exists %}
+                {% for movie in movies %}
+                    <div class="col-lg-4 card m-2">
+                        <a href={% url "movie_detail" movie.id %}>
+                            <img
+                                    {% if movie.avatar %}
+                                        src="{{ movie.avatar.url }}"
+                                    {% else %}
+                                        src="../../static/movies/images/default-movie.png"
+                                    {% endif %}
+                                        alt="{{ movie.title }}" class="avatar">
+                        </a>
+                        <div class="mb-1 row">
+                            <div class="col-lg-6 star">
                             <span class="ipc-rating-star">
                                 <svg width="24" height="24" class="ipc-icon">
                                     <path fill="#f5c518"
@@ -25,23 +26,37 @@
                                 </svg>
                             {{ movie.average_rating }}
                             </span>
+                            </div>
+                            <div class="col-lg-3">
+                                <a href={% url "movie_rate" movie.id %}>
+                                    <button type="submit" class="btn btn-outline-secondary ipc-rating-star mb-2">
+                                        <svg width="24" height="24">
+                                            <path d="M22.724 8.217l-6.786-.587-2.65-6.22c-.477-1.133-2.103-1.133-2.58 0l-2.65 6.234-6.772.573c-1.234.098-1.739 1.636-.8 2.446l5.146 4.446-1.542 6.598c-.28 1.202 1.023 2.153 2.09 1.51l5.818-3.495 5.819 3.509c1.065.643 2.37-.308 2.089-1.51l-1.542-6.612 5.145-4.446c.94-.81.45-2.348-.785-2.446zm-10.726 8.89l-5.272 3.174 1.402-5.983-4.655-4.026 6.141-.531 2.384-5.634 2.398 5.648 6.14.531-4.654 4.026 1.402 5.983-5.286-3.187z"></path>
+                                        </svg>
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-lg-3">
-                            <a href={% url "movie_rate" movie.id %}>
-                                <button type="submit" class="btn btn-outline-secondary ipc-rating-star mb-2">
-                                    <svg width="24" height="24">
-                                        <path d="M22.724 8.217l-6.786-.587-2.65-6.22c-.477-1.133-2.103-1.133-2.58 0l-2.65 6.234-6.772.573c-1.234.098-1.739 1.636-.8 2.446l5.146 4.446-1.542 6.598c-.28 1.202 1.023 2.153 2.09 1.51l5.818-3.495 5.819 3.509c1.065.643 2.37-.308 2.089-1.51l-1.542-6.612 5.145-4.446c.94-.81.45-2.348-.785-2.446zm-10.726 8.89l-5.272 3.174 1.402-5.983-4.655-4.026 6.141-.531 2.384-5.634 2.398 5.648 6.14.531-4.654 4.026 1.402 5.983-5.286-3.187z"></path>
-                                    </svg>
-                                </button>
-                            </a>
-                        </div>
+                        <a class="title text-left" href={% url "movie_detail" movie.id %}>
+                            <h5>{{ movie.title | title }}</h5>
+                        </a>
+                        <p class="text-left text-truncate mt-1 mb-1">{{ movie.get_description | capfirst }}</p>
                     </div>
-                    <a class="title text-left" href={% url "movie_detail" movie.id %}>
-                        <h5>{{ movie.title | title }}</h5>
+                {% endfor %}
+            {% else %}
+                <div class="text-center mt-3">
+                    <h2 style="color: white">
+                        No movie founded!!!
+                    </h2>
+                    <a href="{% url "movie_add" %}">
+                        <button class="btn btn-primary mt-2">
+                            ADD movie
+                        </button>
                     </a>
-                    <p class="text-left text-truncate mt-1 mb-1">{{ movie.get_description | capfirst }}</p>
+
                 </div>
-            {% endfor %}
+
+            {% endif %}
         </div>
     </div>
 {% endblock %}
