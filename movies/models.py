@@ -108,19 +108,6 @@ class MovieComment(AbstractComment):
         return "{}: {}".format(self.id, self.comment_body[:10])
 
 
-class CrewComment(AbstractComment):
-    crew = models.ForeignKey(Crew, on_delete=models.CASCADE)
-
-    def publish(self):
-        self.objects.update(status=AbstractComment.APPROVED)
-
-    class Meta:
-        ordering = ['created_time']
-
-    def __str__(self):
-        return "{}: {}".format(self.id, self.comment_body[:10])
-
-
 class MovieRating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='movie_ratings')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")

@@ -30,7 +30,7 @@
                 <div class="row-md-2 mb-3">
                     <h4 class="text-left dark-mode">Rate:
                         <span style="color:seashell;font-size: 24px" class="text-center">
-                            {{ movie.rate|floatformat:2 }}
+                            {{ movie.average_rating |floatformat:2 }}
                         </span>
                     </h4>
                 </div>
@@ -120,7 +120,7 @@
                                     </h5>
                                 </div>
                                 <form method="POST" class="form-inline"
-                                      action="{% url 'movie_comment' movie.id comment.id %}">
+                                      action="{% url 'movie_comment' movie.id com.id %}">
                                     {% csrf_token %}
                                     {% if user.is_authenticated and com.user == request.user %}
                                         <a class="mr-1" style="margin-left: 2%"

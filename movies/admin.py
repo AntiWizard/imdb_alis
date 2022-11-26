@@ -48,7 +48,7 @@ class MovieAdmin(admin.ModelAdmin):
 
 
 class MovieCommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'movie', 'user']
+    list_display = ['id', 'movie', 'user', 'comment_body']
 
     def save_model(self, request, obj, form, change):
         if change and not obj.validated_by and 'status' in form.changed_data:
