@@ -1,21 +1,31 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from movies.forms import MovieForm
+from movies.forms import MovieForm, SearchForm
 from movies.models import Movie, MovieCrew, MovieComment
 
 
 def movies_list(request):
+    search_form = SearchForm()
     if request.method == "GET":
         movies = Movie.objects.filter(is_valid=True)[:8]
         context = {
             "movies": movies,
+            "search_form": search_form
         }
         return render(request, 'movies/movies_list.html', context=context)
 
     elif request.method == "POST":
         if request.POST.get('search'):
-            return redirect('movies_list')
+            context = {"search_form": search_form}
+            s_text = request.POST.get('search_text')
+            if len(s_text) >= 3:
+                search_movie = Movie.objects.filter(title__icontains=request.POST.get('search_text'))
+                context = {
+                    "movies": search_movie,
+                    "search_form": search_form
+                }
+            return render(request, 'movies/movies_list.html', context=context)
         else:
             movie_form = MovieForm(request.POST, request.FILES)
             if not movie_form.is_valid():
