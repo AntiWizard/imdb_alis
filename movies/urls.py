@@ -4,7 +4,7 @@ from movies.views import movies_list, movie_detail, movie_update, movie_add, mov
 
 urlpatterns = [
     path('', movies_list, name='movies_list'),
-    path('admin/', admin_view, name='django-admin'),
+    path('admin/', admin_view, name='django_admin'),
     path('movies/', movies_list, name='movies_list'),
     path('movies/<int:pk>/', movie_detail, name='movie_detail'),
     path('movies/add/', movie_add, name='movie_add'),
