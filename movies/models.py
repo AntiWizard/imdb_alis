@@ -120,12 +120,16 @@ class CrewComment(AbstractComment):
     def __str__(self):
         return "{}: {}".format(self.id, self.comment_body[:10])
 
+
 class MovieRating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='movie_ratings')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")
     rate = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.rate)
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=('user', 'movie'), name='unique_user_movie')]

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from movies.models import Role, Genre, Crew, MovieCrew, Movie, MovieComment
+from movies.models import Role, Genre, Crew, MovieCrew, Movie, MovieComment, MovieRating
 
 
 class RoleAdmin(admin.ModelAdmin):
@@ -56,8 +56,14 @@ class MovieCommentAdmin(admin.ModelAdmin):
         obj.save()
 
 
+class MovieRatingAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'rate']
+    list_filter = ('user',)
+
+
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Crew, CrewAdmin)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(MovieComment, MovieCommentAdmin)
+admin.site.register(MovieRating, MovieRatingAdmin)

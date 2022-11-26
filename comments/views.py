@@ -51,12 +51,6 @@ def movie_comment(request, movie_pk, comment_pk, form=None):
 
 
 @login_required
-def crew_comment(request, pk):
-    if request.method == "GET":
-        return render(request, "comments/movie_comment.html", )
-
-
-@login_required
 def parent_comment(request, movie_pk, comment_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     comment = get_object_or_404(MovieComment, pk=comment_pk)
