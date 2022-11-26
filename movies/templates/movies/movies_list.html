@@ -13,9 +13,9 @@
                                     {% if movie.avatar %}
                                         src="{{ movie.avatar.url }}"
                                     {% else %}
-                                        src="../../static/movies/images/default-movie.png"
+                                        src={% static "movies/images/default-movie.png" %}
                                     {% endif %}
-                                        alt="{{ movie.title }}" class="avatar">
+                            alt="{{ movie.title }}" class="avatar">
                         </a>
                         <div class="mb-1 row">
                             <div class="col-lg-6 star">

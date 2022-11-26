@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Rating {{ movie.title }} {% endblock %}
 
 {% block content %}
@@ -10,9 +11,9 @@
                             {% if movie.avatar %}
                                 src="{{ movie.avatar.url }}"
                             {% else %}
-                                src="../../static/movies/images/default-movie.png"
+                                src={% static "movies/images/default-movie.png" %}
                             {% endif %}
-                                alt="{{ movie.title }}" class="avatar">
+                    alt="{{ movie.title }}" class="avatar">
                 </div>
                 <div class="col-md-6">
                     <form method="POST" action="{% url "movie_rate" movie.id %}" style="padding: 5%">

@@ -1,0 +1,46 @@
+{% load user_tag %}
+{% if comment.get_status_display == "Approved" %}
+
+    <div class="card comment mb-2">
+        <h5 style="text-align: right;margin-right: 20px">
+            <i>{{ comment.user|custom }}</i>
+        </h5>
+        <div>
+            <h6 style="color:currentColor;margin-left: 2%;margin-right: 2%">
+                {{ comment.comment_body | capfirst }}
+            </h6>
+            <h5 style="text-align: right;margin-right: 20px">
+                <i>{{ comment.modified_time }}</i>
+            </h5>
+        </div>
+
+
+        <form method="POST" class="form-inline" action="{% url 'movie_comment' movie.id comment.id %}">
+            {% csrf_token %}
+            {% if user.is_authenticated and comment.user == request.user %}
+                <a class="mr-1" style="margin-left: 2%"
+                   href={% url "movie_comment" movie.id comment.id %}>
+                    <button type="submit" class="btn btn-primary mb-2" name="edit" value="edit">Edit
+                    </button>
+                </a>
+                <a href={% url "movie_comment" movie.id comment.id %}>
+                    <button type="submit" class="btn btn-danger mb-2" name="delete" value="delete">
+                        Delete
+                    </button>
+                </a>
+            {% endif %}
+            {% if user.is_authenticated and comment.user != request.user %}
+                <a style="margin-left: 2%" href={% url "movie_comment" movie.id comment.id %}>
+                    <button type="submit" class="btn btn-success mb-2" name="replay" value="replay">
+                        Replay
+                    </button>
+                </a>
+            {% endif %}
+        </form>
+        {% for ch in comment.parent_moviecomments.get_queryset %}
+            {% with comment=ch template_name="tree_comment.html" %}
+                {% include template_name %}
+            {% endwith %}
+        {% endfor %}
+    </div>
+{% endif %}

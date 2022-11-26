@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load user_tag %}
 {% block title %} {{ movie.title }} {% endblock %}
 
@@ -10,9 +11,9 @@
                         {% if movie.avatar %}
                             src="{{ movie.avatar.url }}"
                         {% else %}
-                            src="../../static/movies/images/default-movie.png"
+                            src={% static "movies/images/default-movie.png" %}
                         {% endif %}
-                            alt="{{ movie.title }}" class="avatar">
+                alt="{{ movie.title }}" class="avatar">
             </div>
             <div class="col-md-8 p-2 column">
                 <div class="row-md-2 mb-4">
@@ -42,21 +43,25 @@
                     </h4>
                 </div>
                 <br>
-                <div class="row-md-2">
-                    <h4 class="text-left dark-mode">Director:
-                        <span style="color:seashell;text-indent: 50px;text-align: justify;">
+                {% if directors %}
+                    <div class="row-md-2">
+                        <h4 class="text-left dark-mode">Director:
+                            <span style="color:seashell;text-indent: 50px;text-align: justify;">
                             {{ directors | title }}
                         </span>
-                    </h4>
-                </div>
-                <br>
-                <div class="row-md-2">
-                    <h4 class="text-left dark-mode">Actors:
-                        <span style="color:seashell;text-indent: 50px;text-align: justify;">
+                        </h4>
+                    </div>
+                    <br>
+                {% endif %}
+                {% if actors %}
+                    <div class="row-md-2">
+                        <h4 class="text-left dark-mode">Actors:
+                            <span style="color:seashell;text-indent: 50px;text-align: justify;">
                             <b>{{ actors }}</b>
                         </span>
-                    </h4>
-                </div>
+                        </h4>
+                    </div>
+                {% endif %}
                 <div class="mt-5">
                     <a href="{% url "movie_update" movie.id %}">
                         <button type="submit" class="btn btn-primary">
@@ -70,76 +75,7 @@
         <div class="row">
             {% for comment in comments %}
                 {% if not comment.parent %}
-                    <div class="card comment mb-2">
-                        <h5 style="text-align: right;margin-right: 20px">
-                            <i>{{ comment.user|custom }}</i>
-                        </h5>
-                        <div>
-                            <h6 style="color:currentColor;margin-left: 2%;margin-right: 2%">
-                                {{ comment.comment_body | capfirst }}
-                            </h6>
-                            <h5 style="text-align: right;margin-right: 20px">
-                                <i>{{ comment.modified_time }}</i>
-                            </h5>
-                        </div>
-
-
-                        <form method="POST" class="form-inline" action="{% url 'movie_comment' movie.id comment.id %}">
-                            {% csrf_token %}
-                            {% if user.is_authenticated and comment.user == request.user %}
-                                <a class="mr-1" style="margin-left: 2%"
-                                   href={% url "movie_comment" movie.id comment.id %}>
-                                    <button type="submit" class="btn btn-primary mb-2" name="edit" value="edit">Edit
-                                    </button>
-                                </a>
-                                <a href={% url "movie_comment" movie.id comment.id %}>
-                                    <button type="submit" class="btn btn-danger mb-2" name="delete" value="delete">
-                                        Delete
-                                    </button>
-                                </a>
-                            {% endif %}
-                            {% if user.is_authenticated and comment.user != request.user and user.id not in comment.get_user_parent %}
-                                <a style="margin-left: 2%" href={% url "movie_comment" movie.id comment.id %}>
-                                    <button type="submit" class="btn btn-success mb-2" name="replay" value="replay">
-                                        Replay
-                                    </button>
-                                </a>
-                            {% endif %}
-                        </form>
-                        {% for com in comment.get_parent %}
-                            <div class="card comment mb-2">
-                                <h5 style="text-align: right;margin-right: 20px">
-                                    <i>{{ com.user|custom }}</i>
-                                </h5>
-                                <div>
-                                    <h6 style="color:currentColor;margin-left: 2%;margin-right: 2%">
-                                        {{ com.comment_body | capfirst }}
-                                    </h6>
-                                    <h5 style="text-align: right;margin-right: 20px">
-                                        <i>{{ com.modified_time }}</i>
-                                    </h5>
-                                </div>
-                                <form method="POST" class="form-inline"
-                                      action="{% url 'movie_comment' movie.id com.id %}">
-                                    {% csrf_token %}
-                                    {% if user.is_authenticated and com.user == request.user %}
-                                        <a class="mr-1" style="margin-left: 2%"
-                                           href={% url "movie_comment" movie.id com.id %}>
-                                            <button type="submit" class="btn btn-primary mb-2" name="edit" value="edit">
-                                                Edit
-                                            </button>
-                                        </a>
-                                        <a href={% url "movie_comment" movie.id com.id %}>
-                                            <button type="submit" class="btn btn-danger mb-2" name="delete"
-                                                    value="delete">
-                                                Delete
-                                            </button>
-                                        </a>
-                                    {% endif %}
-                                </form>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% include "tree_comment.html" %}
                 {% endif %}
             {% endfor %}
         </div>
