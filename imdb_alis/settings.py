@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'movies.apps.MoviesConfig',
     'users.apps.UsersConfig',
     'comments.apps.CommentsConfig',
+    'rest_framework',
     'crispy_forms',
 ]
 
@@ -137,3 +138,4 @@ LOGOUT_REDIRECT_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+

@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('movies.urls')),
     path('', include('users.urls')),
     path('', include('comments.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

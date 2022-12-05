@@ -1,9 +1,10 @@
-from django.urls import path
-
+from django.urls import path, include
+from movies.api.views import api_root
 from movies.views import movies_list, movie_detail, movie_update, movie_add, movie_rate, admin_view
 
 urlpatterns = [
-    path('', movies_list, name='movies_list'),
+    path('api/', include('movies.api.urls')),
+    path('', api_root),
     path('admin/', admin_view, name='django_admin'),
     path('movies/', movies_list, name='movies_list'),
     path('movies/<int:pk>/', movie_detail, name='movie_detail'),
